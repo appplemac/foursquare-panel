@@ -8,6 +8,10 @@ get '/edit' do
 end
 
 post '/edit' do
+  unless session[:token]
+    redirect("/redirect")
+  end
+
   @data = params[:data]
 
   options = {}
@@ -23,7 +27,27 @@ post '/edit' do
 
   options.reject! {|k,_| options[k].empty?}
 
-  client = Foursquare2::Client.new(:oauth_token => @data["oauth"])
-  client.propose_venue_edit(@data["venue_id"], options)
+  @venues = @data["venue_id"].detete(" ").split(",")
 
+  raise(ArgumentError, "No venues provided") if @venues.empty?
+  raise(ArgumentError, "Invalid token") if session[:token].empty?
+
+  client = Foursquare2::Client.new(:oauth_token => session[:token])
+
+  @venues.each do |venue|
+    client.propose_venue_edit(venue, options)
+  end
+
+end
+
+get '/redirect' do
+  uri = "https://foursquare.com/oauth2/authenticate?client_id=RD3AK4RFSBHIA\
+            K40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK&response_type=token&redirect_u\
+            ri=http://panel.alexey.ch/auth".delete" "
+  redirect(uri)
+end
+
+get '/auth/:token' do
+  session[:token] = params[:token].delete("#")
+  redirect("/edit")
 end
