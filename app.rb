@@ -1,7 +1,13 @@
 require 'sinatra'
 require 'foursquare2'
+require 'httparty'
+require 'json'
 
-enable :sessions
+use Rack::Session::Pool, :expire_after => 2592000
+set :session_secret, 'xxKzkWJdVBUTgMgiVj'
+set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
+set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
+set :redirect_uri, 'http://panel.alexey.ch/auth'
 
 get '/' do
   redirect('/edit')
@@ -48,13 +54,22 @@ post '/edit' do
 end
 
 get '/redirect' do
-  uri = "https://foursquare.com/oauth2/authenticate?client_id=RD3AK4RFSBHIA\
-            K40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK&response_type=token&redirect_u\
-            ri=http://panel.alexey.ch/auth".delete" "
-  redirect(uri)
+  @uri = "https://foursquare.com/oauth2/authenticate?client_id=#{settings.client_id}\
+            &response_type=code&redirect_uri=#{settings.redirect_uri}".delete(" ")
+  redirect(@uri)
 end
 
-get '/auth/:token' do
-  session[:token] = params[:token].delete("#")
+get '/auth?' do
+  @code = params["code"]
+  @uri = "https://foursquare.com/oauth2/access_token?client_id=#{settings.client_id}\
+            &response_type=authorization_code&redirect_uri=#{settings.redirect_uri}".
+            delete(" ")
+  @response = HTTParty.get("https://foursquare.com/oauth2/access_token",
+              :query => {:client_id => settings.client_id,
+              :response_type => "authorization_code",
+              :redirect_uri => settings.redirect_uri,
+              :code => @code })
+  @token = JSON.parse(@response.body)["access_token"]
+  session[:token] = @token
   redirect("/edit")
 end
