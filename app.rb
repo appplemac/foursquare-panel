@@ -61,13 +61,12 @@ end
 
 get '/auth?' do
   @code = params["code"]
-  @response = HTTParty.get("https://foursquare.com/oauth2/access_token",
+  @token = HTTParty.get("https://foursquare.com/oauth2/access_token",
               :query => {:client_id => settings.client_id,
                          :client_secret => settings.client_secret,
                          :grant_type => "authorization_code",
                          :redirect_uri => settings.redirect_uri,
-                         :code => @code }).parsed_response
-  @token = @response["access_token"]
+                         :code => @code }).parsed_response["access_token"]
   session[:token] = @token
   redirect("/edit")
 end
