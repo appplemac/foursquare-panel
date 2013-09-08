@@ -7,6 +7,7 @@
     <h1>Edit</h1>
     <form action="/edit" method="post" accept-charset="utf-8">
       <input type="text" name="data[venue_id]" id="venue_id" value="" placeholder="venue ids, comma separated" />
+      <input type="hidden" name="oauth" id="data[oauth]" value="<%= @token %>" />
 
       <input type="text" name="data[name]" id="name" value="" placeholder="name" />
       <input type="text" name="data[city]" id="city" value="" placeholder="city" />

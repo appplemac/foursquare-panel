@@ -14,15 +14,16 @@ get '/' do
 end
 
 get '/edit' do
-  unless session[:token]
+  if session[:token].nil?
     redirect('/redirect')
   end
 
+  @token = session[:token]
   erb :edit
 end
 
 post '/edit' do
-  if session[:token].empty?
+  unless session[:token]
     redirect('/edit')
   end
   @data = params[:data]
@@ -42,7 +43,7 @@ post '/edit' do
   @options.reject! {|_,value| value.empty?}
 
   begin
-    client = Foursquare2::Client.new(:oauth_token => session[:token])
+    client = Foursquare2::Client.new(:oauth_token => data[:oauth])
 
     @venues.each do |venue|
       client.propose_venue_edit(venue, @options)
