@@ -27,7 +27,7 @@ post '/edit' do
   end
   @data = params[:data]
 
-  @venues = @data["venue_id"].detete(" ").split(",")
+  @venues = @data["venue_id"].delete(" ").split(",")
   if @venues.empty?
     flash[:notice] = "You have provided no venues for edition"
     redirect('/edit')
