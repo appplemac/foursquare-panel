@@ -43,7 +43,7 @@ post '/edit' do
   @options.reject! {|_,value| value.empty?}
 
   begin
-    client = Foursquare2::Client.new(:oauth_token => data[:oauth])
+    client = Foursquare2::Client.new(:oauth_token => @data[:oauth])
 
     @venues.each do |venue|
       client.propose_venue_edit(venue, @options)
