@@ -48,7 +48,7 @@ post '/edit' do
     @venues.each do |venue|
       client.propose_venue_edit(venue, @options)
     end
-  rescue APIError => e
+  rescue Foursquare2::APIError => e
     flash[:notice] = e.message
     redirect('/edit')
   end
