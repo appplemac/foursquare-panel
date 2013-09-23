@@ -2,7 +2,7 @@ require 'sinatra'
 require 'foursquare2'
 require 'httparty'
 require 'json'
-require 'rack-flash'
+require 'rack-flash3'
 
 use Rack::Session::Pool, :expire_after => 2592000
 set :session_secret, 'xxKzkWJdVBUTgMgiVj'
