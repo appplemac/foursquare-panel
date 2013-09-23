@@ -3,6 +3,7 @@ require 'foursquare2'
 require 'httparty'
 require 'json'
 require 'rack-flash'
+require_relative 'venue'
 
 use Rack::Session::Pool, :expire_after => 2592000
 use Rack::Flash
@@ -10,37 +11,6 @@ set :session_secret, 'xxKzkWJdVBUTgMgiVj'
 set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
-
-class Venue
-  attr_accessor :venue_id, :name, :city, :state, :phone, :cat_id
-
-  def initialize(options = {})
-    options.reject {|_,v| v.empty? }.each do |k,v|
-      self.send("#{k.to_s}=".to_sym, v)
-    end
-  end
-
-  def to_h
-    props = {}
-    [:name, :city, :state, :phone].each do |attr|
-      unless self.send(attr).nil?
-        props[attr] = self.send(attr)
-      end
-    end
-    # special cases
-    unless self.cat_id.nil?
-      props[:primaryCategoryId] = self.cat_id
-    end
-    props
-  end
-
-  def edit!(client)
-    unless client.is_a?(Foursquare2::Client)
-      raise ArgumentError, "Client looks invalid"
-    end
-    client.propose_venue_edit(@venue_id, self.to_h)
-  end
-end
 
 get '/' do
   redirect('/edit')
@@ -59,21 +29,15 @@ post '/edit' do
   unless session[:token]
     redirect('/edit')
   end
-  @data = params[:data]
+  @common = params[:data]
+  @venues = params[:venues]["venue_id"].delete(" ").split(",")
 
-  @venues = @data["venue_id"].delete(" ").split(",")
   if @venues.empty?
     flash[:notice] = "You have provided no venues for edition"
     redirect('/edit')
   end
 
-  @options = {}
-  @options[:name] = @data["name"]
-  @options[:city] = @data["city"]
-  @options[:state] = @data["state"]
-  @options[:phone] = @data["phone"]
-  @options[:primaryCategoryId] = @data["cat"]
-  @options.reject! {|_,value| value.empty?}
+  @venues.each do
 
   @counter = {:success => 0, :fail => 0}
 
