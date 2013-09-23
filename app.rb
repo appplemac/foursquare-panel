@@ -2,9 +2,10 @@ require 'sinatra'
 require 'foursquare2'
 require 'httparty'
 require 'json'
-require 'rack-flash3'
+require 'rack-flash'
 
 use Rack::Session::Pool, :expire_after => 2592000
+use Rack::Flash
 set :session_secret, 'xxKzkWJdVBUTgMgiVj'
 set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
@@ -51,7 +52,6 @@ post '/edit' do
     end
   rescue Foursquare2::APIError => e
     flash[:notice] = e.message
-    redirect('/edit')
   end
 end
 
