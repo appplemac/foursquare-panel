@@ -11,6 +11,21 @@ set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
 
+class Venue
+  attr_accessor :venue_id, :name, :city, :state, :phone, :cat_id
+
+  def initialize(options = {})
+    options.reject {|_,v| v.empty? }.each do |k,v|
+      self.send("#{k.to_s}=".to_sym, v)
+    end
+  end
+
+  def edit(client)
+    # TODO: THIS IS WRONG
+    client.propose_venue_edit(@venue_id)
+  end
+end
+
 get '/' do
   redirect('/edit')
 end

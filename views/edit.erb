@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Edit a lot</title>
-  </head>
-  <body>
-    <h1>Edit</h1>
-    <% if flash[:notice] %>
-      <h2><%= flash[:notice] %></h2>
-    <% end %>
-    <form action="/edit" method="post" accept-charset="utf-8">
-      <input type="text" name="data[venue_id]" id="venue_id" value="" placeholder="venue ids, comma separated" />
-      <input type="hidden" name="oauth" id="data[oauth]" value="<%= @token %>" />
+<h1>Edit</h1>
+<% if flash[:notice] %>
+  <h2><%= flash[:notice] %></h2>
+<% end %>
+<form action="/edit" method="post" accept-charset="utf-8">
+  <input type="text" name="data[venue_id]" id="venue_id" value="" placeholder="venue ids, comma separated" />
 
-      <input type="text" name="data[name]" id="name" value="" placeholder="name" />
-      <input type="text" name="data[city]" id="city" value="" placeholder="city" />
-      <input type="text" name="data[state]" id="state" value="" placeholder="state" />
-      <input type="text" name="data[phone]" id="phone" value="" placeholder="phone" />
-      <input type="text" name="data[cat]" id="primaryCategoryId" value="" placeholder="primary category id" />
-      <br />
+  <input type="text" name="data[name]" id="name" value="" placeholder="name" />
+  <input type="text" name="data[city]" id="city" value="" placeholder="city" />
+  <input type="text" name="data[state]" id="state" value="" placeholder="state" />
+  <input type="text" name="data[phone]" id="phone" value="" placeholder="phone" />
+  <input type="text" name="data[cat_id]" id="cat_id" value="" placeholder="primary category id" />
+  <br />
 
-      <input type="submit" id="submit" value="Submit" />
-    </form>
-  </body>
-</html>
+  <input type="submit" id="submit" value="Submit" />
+</form>
