@@ -44,16 +44,26 @@ post '/edit' do
   @options[:primaryCategoryId] = @data["cat"]
   @options.reject! {|_,value| value.empty?}
 
+  @counter = {:success => 0, :fail => 0}
+
   begin
     client = Foursquare2::Client.new(:oauth_token => session[:token])
-    puts client.inspect
 
     @venues.each do |venue|
       client.propose_venue_edit(venue, @options)
+      @counter[:success] += 1
     end
   rescue Foursquare2::APIError => e
+    @counter[:fail] += 1
     flash[:notice] = e.message
   end
+  redirect("/done/#{@counter[:success]}/#{@counter[:fail]}")
+end
+
+get '/done/:success/:fail' do
+  @success = params[:success]
+  @fail = params[:fail]
+  erb :done
 end
 
 get '/redirect' do
