@@ -18,7 +18,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (1.2.0)
     rack (1.5.2)
-    rack-flash (0.1.2)
+    rack-flash3 (1.0.5)
       rack
     rack-protection (1.5.0)
       rack
@@ -35,5 +35,5 @@ DEPENDENCIES
   foursquare2
   httparty
   json
-  rack-flash
+  rack-flash3
   sinatra
