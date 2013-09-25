@@ -25,6 +25,22 @@ helpers do
       redirect('/redirect')
     end
   end
+
+  def all_page_venues(api_client, page_id)
+    venue_ids = []
+    offset = 0
+    data = api_client.page_venues(page_id, limit: 100,
+                            offset: offset).items
+    while data.size > 0
+      data.each do |venue|
+        venue_ids << venue.id
+      end
+      offset += data.size
+      data = api_client.page_venues(page_id, limit: 100,
+                            offset: offset).items
+    end
+    venue_ids
+  end
 end
 
 get '/' do
@@ -39,8 +55,14 @@ end
 post '/edit' do
   check_token
 
+  @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
+
   @common = params[:data]
-  @ids = params[:venues]["venue_id"].delete(" ").split(",")
+  if params[:venues]["source"] == "list"
+    @ids = params[:venues]["venue_id"].delete(" ").split(",")
+  else
+    @ids = all_page_venues(@api_client, params[:venues]["page_id"])
+  end
 
   if @ids.empty?
     error("You have provided no venues for edition")
@@ -49,8 +71,6 @@ post '/edit' do
   if @ids.size > 500
     error("You can't do more than 500 API requests per hour")
   end
-
-  @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
 
   @counter = Counter.new
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
