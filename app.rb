@@ -19,6 +19,12 @@ helpers do
     flash[:notice] = message
     redirect('/edit')
   end
+
+  def check_token
+    unless session[:token]
+      redirect('/redirect')
+    end
+  end
 end
 
 get '/' do
@@ -26,18 +32,12 @@ get '/' do
 end
 
 get '/edit' do
-  if session[:token].nil?
-    redirect('/redirect')
-  end
-
-  @token = session[:token]
+  check_token
   erb :edit
 end
 
 post '/edit' do
-  unless session[:token]
-    redirect('/edit')
-  end
+  check_token
 
   @common = params[:data]
   @ids = params[:venues]["venue_id"].delete(" ").split(",")
