@@ -14,6 +14,13 @@ set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
 
+helpers do
+  def error(message)
+    flash[:notice] = message
+    redirect('/edit')
+  end
+end
+
 get '/' do
   redirect('/edit')
 end
@@ -31,12 +38,16 @@ post '/edit' do
   unless session[:token]
     redirect('/edit')
   end
+
   @common = params[:data]
   @ids = params[:venues]["venue_id"].delete(" ").split(",")
 
   if @ids.empty?
-    flash[:notice] = "You have provided no venues for edition"
-    redirect('/edit')
+    error("You have provided no venues for edition")
+  end
+
+  if @ids.size > 500
+    error("You can't do more than 500 API requests per hour")
   end
 
   @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
@@ -56,9 +67,9 @@ post '/edit' do
   redirect("/done/#{@counter.success}/#{@counter.failure}")
 end
 
-get '/done/:success/:fail' do
+get '/done/:success/:failure' do
   @success = params[:success]
-  @fail = params[:fail]
+  @failure = params[:fail]
   erb :done
 end
 
