@@ -35,7 +35,7 @@ helpers do
       data.each do |venue|
         venue_ids << venue.id
       end
-      offset += data.size
+      offset += 100
       data = api_client.page_venues(page_id, limit: 100,
                             offset: offset).items
     end
