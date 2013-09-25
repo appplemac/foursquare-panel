@@ -3,6 +3,7 @@ require 'rspec'
 require 'faker'
 require_relative '../venue'
 require_relative '../form_object'
+require_relative '../counter'
 
 FactoryGirl.define do
   factory :venue do
@@ -29,5 +30,10 @@ FactoryGirl.define do
         form_object.ids << Faker::Number.number(15)
       end
     end
+  end
+
+  factory :counter do
+    success Faker::Number.number(2).to_i
+    failure Faker::Number.number(2).to_i
   end
 end

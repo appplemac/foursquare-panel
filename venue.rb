@@ -16,7 +16,7 @@ class Venue
     end
     # special cases
     unless self.cat_id.nil?
-      props[:primaryCategoryId] = self.cat_id
+      props[:primaryCategoryId] = @cat_id
     end
     props
   end

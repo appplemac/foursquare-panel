@@ -4,6 +4,8 @@ require 'httparty'
 require 'json'
 require 'rack-flash'
 require_relative 'venue'
+require_relative 'form_object'
+require_relative 'counter'
 
 use Rack::Session::Pool, :expire_after => 2592000
 use Rack::Flash
@@ -30,29 +32,28 @@ post '/edit' do
     redirect('/edit')
   end
   @common = params[:data]
-  @venues = params[:venues]["venue_id"].delete(" ").split(",")
+  @ids = params[:venues]["venue_id"].delete(" ").split(",")
 
-  if @venues.empty?
+  if @ids.empty?
     flash[:notice] = "You have provided no venues for edition"
     redirect('/edit')
   end
 
-  @venues.each do
+  @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
 
-  @counter = {:success => 0, :fail => 0}
-
-  begin
-    client = Foursquare2::Client.new(:oauth_token => session[:token])
-
-    @venues.each do |venue|
-      client.propose_venue_edit(venue, @options)
-      @counter[:success] += 1
+  @counter = Counter.new
+  @venues = FormObject.new(:ids => @ids, :common => @common).parse
+  @venues.each do |venue|
+    begin
+      venue.edit!(@api_client)
+      @counter.success!
+    rescue Foursquare2::APIError => e
+      flash[:notice] = e.message
+      @counter.failure!
     end
-  rescue Foursquare2::APIError => e
-    @counter[:fail] += 1
-    flash[:notice] = e.message
   end
-  redirect("/done/#{@counter[:success]}/#{@counter[:fail]}")
+
+  redirect("/done/#{@counter.success}/#{@counter.failure}")
 end
 
 get '/done/:success/:fail' do
@@ -68,13 +69,13 @@ get '/redirect' do
 end
 
 get '/auth?' do
+  # store the code in the session
   @code = params["code"]
-  @token = HTTParty.get("https://foursquare.com/oauth2/access_token",
+  session[:token] = HTTParty.get("https://foursquare.com/oauth2/access_token",
               :query => {:client_id => settings.client_id,
                          :client_secret => settings.client_secret,
                          :grant_type => "authorization_code",
                          :redirect_uri => settings.redirect_uri,
                          :code => @code }).parsed_response["access_token"]
-  session[:token] = @token
   redirect("/edit")
 end
