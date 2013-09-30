@@ -3,7 +3,7 @@ class Venue
                 :phone, :cat_id
 
   def initialize(options = {})
-    options.reject {|_,v| v.empty? }.each do |k,v|
+    options.reject {|_,v| v.to_s.empty? }.each do |k,v|
       self.send("#{k.to_s}=".to_sym, v)
     end
   end
