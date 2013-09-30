@@ -1,5 +1,6 @@
 class Venue
-  attr_accessor :venue_id, :name, :city, :state, :phone, :cat_id
+  attr_accessor :client, :venue_id, :name, :city, :state,
+                :phone, :cat_id
 
   def initialize(options = {})
     options.reject {|_,v| v.empty? }.each do |k,v|
@@ -15,16 +16,16 @@ class Venue
       end
     end
     # special cases
-    unless self.cat_id.nil?
+    unless @cat_id.nil?
       props[:primaryCategoryId] = @cat_id
     end
     props
   end
 
-  def edit!(client)
-    unless client.is_a?(Foursquare2::Client)
+  def edit!
+    unless @client.is_a?(Foursquare2::Client)
       raise ArgumentError, "Client looks invalid"
     end
-    client.propose_venue_edit(@venue_id, self.to_h)
+    @client.propose_venue_edit(@venue_id, self.to_h)
   end
 end

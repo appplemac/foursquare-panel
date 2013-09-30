@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'thread'
 require 'foursquare2'
 require 'httparty'
 require 'json'
@@ -14,6 +15,19 @@ set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
 Thread.abort_on_exception = true
+
+queue = Queue.new
+
+workers = (1..3).map do
+  Thread.new do
+    venue = queue.deq
+    begin
+      venue.edit!
+    rescue Foursquare2::APIException => e
+      # TODO: do something with e
+    end
+  end
+end
 
 helpers do
   def error(message)
@@ -53,12 +67,17 @@ get '/edit' do
   erb :edit
 end
 
+get '/queue' do
+  queue.size
+end
+
 post '/edit' do
   check_token
 
   @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
 
-  @common = params[:data]
+  # we add api client as a part of common data
+  @common = params[:data].merge({:client => @api_client})
   if params[:venues]["source"] == "list"
     @ids = params[:venues]["venue_id"].delete(" ").split(",")
   else
@@ -73,23 +92,13 @@ post '/edit' do
     error("You can't do more than 500 API requests per hour")
   end
 
-  @counter = Counter.new
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
-  threads = []
   @venues.each do |venue|
-    threads << Thread.new do
-      begin
-        venue.edit!(@api_client)
-        @counter.success!
-      rescue Foursquare2::APIError => e
-        flash[:notice] = e.message
-        @counter.failure!
-      end
-    end
+    queue << venue
   end
-  threads.each(&:join)
 
-  redirect("/done/#{@counter.success}/#{@counter.failure}")
+  # TODO
+  redirect("/done/?/?")
 end
 
 get '/done/:success/:failure' do

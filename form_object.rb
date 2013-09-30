@@ -8,7 +8,7 @@ class FormObject
 
   def parse
     venues = []
-    if not @ids.respond_to?(:each)
+    unless @ids.respond_to?(:each)
       venues << Venue.new(@common.merge(venue_id: @ids))
     else
       @ids.each do |id|
