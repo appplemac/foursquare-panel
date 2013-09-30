@@ -13,6 +13,7 @@ set :session_secret, 'xxKzkWJdVBUTgMgiVj'
 set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
+Thread.abort_on_exception = true
 
 helpers do
   def error(message)
@@ -74,15 +75,19 @@ post '/edit' do
 
   @counter = Counter.new
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
+  threads = []
   @venues.each do |venue|
-    begin
-      venue.edit!(@api_client)
-      @counter.success!
-    rescue Foursquare2::APIError => e
-      flash[:notice] = e.message
-      @counter.failure!
+    threads << Thread.new do
+      begin
+        venue.edit!(@api_client)
+        @counter.success!
+      rescue Foursquare2::APIError => e
+        flash[:notice] = e.message
+        @counter.failure!
+      end
     end
   end
+  threads.each(&:join)
 
   redirect("/done/#{@counter.success}/#{@counter.failure}")
 end
