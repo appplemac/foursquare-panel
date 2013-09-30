@@ -25,7 +25,7 @@ workers = (1..3).map do
       begin
         venue.edit!
       rescue Foursquare2::APIException => e
-        # TODO: do something with e
+        puts e.inspect
       end
     end
   end
