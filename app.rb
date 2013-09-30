@@ -100,7 +100,7 @@ post '/edit' do
   end
 
   # TODO
-  redirect("/done/?/?")
+  redirect("/done")
 end
 
 get '/done' do
