@@ -20,11 +20,13 @@ $queue = Queue.new
 
 workers = (1..3).map do
   Thread.new do
-    venue = $queue.deq
-    begin
-      venue.edit!
-    rescue Foursquare2::APIException => e
-      # TODO: do something with e
+    while true
+      venue = $queue.deq
+      begin
+        venue.edit!
+      rescue Foursquare2::APIException => e
+        # TODO: do something with e
+      end
     end
   end
 end
