@@ -16,7 +16,7 @@ set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
 Thread.abort_on_exception = true
 
-queue = Queue.new
+$queue = Queue.new
 
 workers = (1..3).map do
   Thread.new do
