@@ -103,9 +103,7 @@ post '/edit' do
   redirect("/done/?/?")
 end
 
-get '/done/:success/:failure' do
-  @success = params[:success]
-  @failure = params[:fail]
+get '/done' do
   erb :done
 end
 
