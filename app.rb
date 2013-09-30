@@ -20,7 +20,7 @@ $queue = Queue.new
 
 workers = (1..3).map do
   Thread.new do
-    venue = queue.deq
+    venue = $queue.deq
     begin
       venue.edit!
     rescue Foursquare2::APIException => e
@@ -68,7 +68,7 @@ get '/edit' do
 end
 
 get '/queue' do
-  queue.size
+  "Queue size: #{$queue.size}"
 end
 
 post '/edit' do
@@ -94,7 +94,7 @@ post '/edit' do
 
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
   @venues.each do |venue|
-    queue << venue
+    $queue << venue
   end
 
   # TODO
