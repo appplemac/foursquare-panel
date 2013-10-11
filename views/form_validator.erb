@@ -1,0 +1,23 @@
+<script type="text/javascript" charset="utf-8">
+  var validator = new FormValidator('batch_edit', [{
+    name: 'data[cat_id]',
+    display: 'category ID',
+    rules: 'alpha_numeric'
+  }, {
+    name: 'data[phone]',
+    display: 'phone number',
+    rules: 'alpha_numeric'
+  }, {
+    name: 'data[state]',
+    display: 'state',
+    rules: 'alpha'
+  }, {
+    name: 'data[city]',
+    display: 'city',
+    rules: 'alpha'
+  }], function(errors, event) {
+    if (errors.length > 0) {
+    // Show the errors
+    }
+  });
+</script>

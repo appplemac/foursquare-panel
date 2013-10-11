@@ -8,7 +8,7 @@
   <h2><%= flash[:notice] %></h2>
 <% end %>
 
-<form action="/edit" method="post" accept-charset="utf-8">
+<form name="batch_edit" action="/edit" method="post" accept-charset="utf-8">
   <div class="small-centered small-12 large-9 large-centered column">
     <div class="row">
     </div>
@@ -61,5 +61,7 @@
         <input class="large button expand success" type="submit" id="submit" value="Edit 'em all!" />
       </div>
     </div>
+
+    <%= partial(:form_validator) %>
   </div>
 </form>
