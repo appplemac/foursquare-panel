@@ -1,19 +1,65 @@
-<h1>Edit</h1>
+<div class="row">
+  <div class="large-12 large-centered columns logo">
+    4edit
+  </div>
+</div>
+
 <% if flash[:notice] %>
   <h2><%= flash[:notice] %></h2>
 <% end %>
+
 <form action="/edit" method="post" accept-charset="utf-8">
-  <input type="radio" name="venues[source]" id="source_list" value="list">Use list<br>
-  <input type="radio" name="venues[source]" id="source_page" value="page">Get from page
-  <input type="text" name="venues[page_id]" id="page_id" value="" placeholder="page id" />
-  <input type="text" name="venues[venue_id]" id="venue_id" value="" placeholder="venue ids, comma separated" />
+  <div class="small-centered small-12 large-9 large-centered column">
+    <div class="row">
+    </div>
 
-  <input type="text" name="data[name]" id="name" value="" placeholder="name" />
-  <input type="text" name="data[city]" id="city" value="" placeholder="city" />
-  <input type="text" name="data[state]" id="state" value="" placeholder="state" />
-  <input type="text" name="data[phone]" id="phone" value="" placeholder="phone" />
-  <input type="text" name="data[cat_id]" id="cat_id" value="" placeholder="primary category id" />
-  <br />
+    <div class="row">
+      <div class="switch large round large-12 large-centered columns">
+        <input type="radio" name="venues[source]" id="switch_off" value="list">
+        <label for="source_list" onclick="">Type in venue IDs</label>
+        <input type="radio" name="venues[source]" id="switch_on" value="page" checked>
+        <label for="source_page" onclick="">Get venues from a page</label>
+        <span></span>
+      </div>
+      <div class="large-12 columns" id="page_id_row">
+        <label for="">Page ID</label>
+        <input type="text" name="venues[page_id]" id="page_id" value="" placeholder="8531311" />
+      </div>
+      <div class="large-12 columns" id="venue_list_row" hidden>
+        <label for="">The list of venue IDs, separated by commas</label>
+        <textarea rows="3" name="venues[venue_id]" id="venue_id" value=""
+          placeholder="4b6fdde7f964a52065fe2ce3, 4bb62d376edc76b0e283301c"></textarea>
 
-  <input type="submit" id="submit" value="Submit" />
+      </div>
+      <div class="large-6 columns">
+        <label>Name</label>
+        <input type="text" name="data[name]" id="name" value="" placeholder="Starbucks" />
+      </div>
+      <div class="large-6 columns">
+        <label>City</label>
+        <input type="text" name="data[city]" id="city" value="" placeholder="Barcelona" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-4 columns">
+        <label>State</label>
+        <input type="text" name="data[state]" id="state" value="" placeholder="Barcelona" />
+      </div>
+      <div class="large-4 columns">
+        <label for="">Phone number</label>
+        <input type="text" name="data[phone]" id="phone" value="" placeholder="+34 935 21 92 01" />
+      </div>
+      <div class="large-4 columns">
+        <label for="">Primary Category ID</label>
+        <input type="text" name="data[cat_id]" id="cat_id" value="" placeholder="4bf58dd8d48988d1e0931735" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <input class="large button expand success" type="submit" id="submit" value="Edit 'em all!" />
+      </div>
+    </div>
+  </div>
 </form>

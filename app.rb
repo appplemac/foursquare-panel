@@ -124,3 +124,7 @@ get '/auth?' do
                          :code => @code }).parsed_response["access_token"]
   redirect("/edit")
 end
+
+get "/justrendertheviewplease" do
+  erb :edit
+end
