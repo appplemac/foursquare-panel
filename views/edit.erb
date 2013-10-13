@@ -8,9 +8,11 @@
   <h2><%= flash[:notice] %></h2>
 <% end %>
 
-<form name="batch_edit" action="/edit" method="post" accept-charset="utf-8">
+<form name="batch_edit" action="#" method="get" accept-charset="utf-8">
   <div class="small-centered small-12 large-9 large-centered column">
     <div class="row">
+      <div class="alert-box alert" id="error" style="display: none;">
+      </div>
     </div>
 
     <div class="row">
@@ -33,26 +35,26 @@
       </div>
       <div class="large-6 columns">
         <label>Name</label>
-        <input type="text" name="data[name]" id="name" value="" placeholder="Starbucks" />
+        <input type="text" name="data[name]" id="data name" value="" placeholder="Starbucks" />
       </div>
       <div class="large-6 columns">
         <label>City</label>
-        <input type="text" name="data[city]" id="city" value="" placeholder="Barcelona" />
+        <input type="text" name="data[city]" id="data city" value="" placeholder="Barcelona" />
       </div>
     </div>
 
     <div class="row">
       <div class="large-4 columns">
         <label>State</label>
-        <input type="text" name="data[state]" id="state" value="" placeholder="Barcelona" />
+        <input type="text" name="data[state]" id="data state" value="" placeholder="Barcelona" />
       </div>
       <div class="large-4 columns">
         <label for="">Phone number</label>
-        <input type="text" name="data[phone]" id="phone" value="" placeholder="+34 935 21 92 01" />
+        <input type="text" name="data[phone]" id="data phone" value="" placeholder="+34 935 21 92 01" />
       </div>
       <div class="large-4 columns">
         <label for="">Primary Category ID</label>
-        <input type="text" name="data[cat_id]" id="cat_id" value="" placeholder="4bf58dd8d48988d1e0931735" />
+        <input type="text" name="data[cat_id]" id="data cat_id" value="" placeholder="4bf58dd8d48988d1e0931735" />
       </div>
     </div>
 
@@ -62,6 +64,6 @@
       </div>
     </div>
 
-    <%= partial(:form_validator) %>
+    <%= erb(:form_validator) %>
   </div>
 </form>

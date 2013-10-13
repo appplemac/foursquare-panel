@@ -12,12 +12,51 @@
     display: 'state',
     rules: 'alpha'
   }, {
+    name: 'venues[page_id]',
+    display: 'page ID',
+    rules: 'numeric|!callback_page_or_venue_provided'
+  }, {
     name: 'data[city]',
     display: 'city',
     rules: 'alpha'
+  }, {
+    name: 'venues[venue_id]',
+    display: 'venues',
+    rules: '!callback_page_or_venue_provided'
   }], function(errors, event) {
+    var error_field = $("#error");
     if (errors.length > 0) {
-    // Show the errors
+      var error_array = [];
+      $.each(errors, function(index, error) {
+          error_array.push(error.message);
+      });
+      error_array = $.unique(error_array);
+      var error_string = '';
+      $.each(error_array, function(index, message) {
+        error_string += message + '<br />';
+      });
+      error_field.html(error_string);
+      error_field.show();
     }
+    else error_field.hide();
   });
+  validator.registerCallback('page_or_venue_provided', function(value) {
+      var venue_list = $("#venue_list_row textarea").val();
+      var page_id = $("#page_id_row input").val();
+      var radio_val = $('form input[type=radio]:checked').val();
+      if ((radio_val == "page" && page_id)||(radio_val == "list" &&
+          venue_list)) return true;
+      else return false;
+      });
+  validator.registerCallback('at_least_one_change_provided', function(value) {
+      var fields = $("input[id~='data']");
+      var count = 0;
+      $.each(fields, function(index, field) {
+          if (field.value) ++count;
+        });
+      if (count > 0) return true;
+      else return false;
+      });
+  validator.setMessage('page_or_venue_provided',
+        'Please provide one page ID or at least one venue ID.');
 </script>
