@@ -37,6 +37,11 @@ helpers do
     redirect('/edit')
   end
 
+  def in_whitelist(id)
+    whitelist = [12277667]
+    whitelist.include?(id)
+  end
+
   def check_token
     unless session[:token]
       redirect('/redirect')
@@ -52,7 +57,9 @@ helpers do
     api_client = api_client_from_session
     user = api_client.user("self")
     if user.superuser.nil? or user.superuser < 3
-      redirect('/closed_beta')
+      unless in_whitelist(user.id.to_i)
+        redirect('/closed_beta')
+      end
     end
   end
 
