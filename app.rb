@@ -43,6 +43,19 @@ helpers do
     end
   end
 
+  def api_client_from_session
+    check_token
+    Foursquare2::Client.new(:oauth_token => session[:token])
+  end
+
+  def check_su
+    api_client = api_client_from_session
+    user = api_client.user("self")
+    if user.superuser.nil? or user.superuser < 3
+      redirect('/closed_beta')
+    end
+  end
+
   def all_page_venues(api_client, page_id)
     venue_ids = []
     offset = 0
@@ -65,18 +78,23 @@ get '/' do
 end
 
 get '/edit' do
-  check_token
+  check_su
   erb :edit
 end
 
 get '/queue' do
-  "Queue size: #{$queue.size}"
+  @queue_size = $queue.size
+  erb :queue
+end
+
+get '/closed_beta' do
+  erb :closed_beta
 end
 
 post '/edit' do
-  check_token
+  check_su
 
-  @api_client = Foursquare2::Client.new(:oauth_token => session[:token])
+  @api_client = api_client_from_session
 
   # we add api client as a part of common data
   @common = params[:data].merge({:client => @api_client})
@@ -99,7 +117,6 @@ post '/edit' do
     $queue << venue
   end
 
-  # TODO
   redirect("/done")
 end
 

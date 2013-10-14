@@ -8,7 +8,7 @@
   <h2><%= flash[:notice] %></h2>
 <% end %>
 
-<form name="batch_edit" action="#" method="get" accept-charset="utf-8">
+<form name="batch_edit" action="/edit" method="post" accept-charset="utf-8">
   <div class="small-centered small-12 large-9 large-centered column">
     <div class="row">
       <div class="alert-box alert" id="error" style="display: none;">
@@ -20,9 +20,11 @@
         <input type="radio" name="venues[source]" id="switch_off" value="list">
         <label for="source_list" onclick="">Type in venue IDs</label>
         <input type="radio" name="venues[source]" id="switch_on" value="page" checked>
-        <label for="source_page" onclick="">Get venues from a page</label>
+        <label for="source_page" onclick="">Get venues from page</label>
         <span></span>
       </div>
+    </div>
+    <div class="row">
       <div class="large-12 columns" id="page_id_row">
         <label for="">Page ID</label>
         <input type="text" name="venues[page_id]" id="page_id" value="" placeholder="8531311" />
@@ -31,8 +33,14 @@
         <label for="">The list of venue IDs, separated by commas</label>
         <textarea rows="3" name="venues[venue_id]" id="venue_id" value=""
           placeholder="4b6fdde7f964a52065fe2ce3, 4bb62d376edc76b0e283301c"></textarea>
-
       </div>
+    </div>
+    <div class="row">
+      <div>
+        <h4>The information to change for all venues <small>(leave blank the fields you don't want to change):</small></h4>
+      </div>
+    </div>
+    <div class="row">
       <div class="large-6 columns">
         <label>Name</label>
         <input type="text" name="data[name]" id="data name" value="" placeholder="Starbucks" />
