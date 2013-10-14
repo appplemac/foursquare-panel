@@ -149,6 +149,6 @@ get '/auth?' do
   redirect("/edit")
 end
 
-get "/justrendertheviewplease" do
-  erb :edit
-end
+#get "/justrendertheviewplease" do
+  #erb :edit
+#end
