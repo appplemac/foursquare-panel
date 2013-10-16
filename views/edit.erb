@@ -42,31 +42,62 @@
       </div>
     </div>
     <div class="row">
-      <div class="large-6 columns">
+      <div class="large-4 columns">
         <label>Name</label>
         <input type="text" name="data[name]" id="data name" value="" placeholder="Starbucks" />
       </div>
-      <div class="large-6 columns">
-        <label>City</label>
-        <input type="text" name="data[city]" id="data city" value="" placeholder="Barcelona" />
+      <div class="large-4 columns">
+        <label>Address</label>
+        <input type="text" name="data[address]" id="data address" value="" placeholder="Av. Diagonal, 640" />
+      </div>
+      <div class="large-4 columns">
+        <label>Cross street</label>
+        <input type="text" name="data[crossStreet]" id="data crossStreet" value="" placeholder="Entença" />
       </div>
     </div>
 
     <div class="row">
       <div class="large-4 columns">
+        <label>City</label>
+        <input type="text" name="data[city]" id="data city" value="" placeholder="Barcelona" />
+      </div>
+      <div class="large-4 columns">
         <label>State</label>
         <input type="text" name="data[state]" id="data state" value="" placeholder="Barcelona" />
       </div>
       <div class="large-4 columns">
-        <label for="">Phone number</label>
-        <input type="text" name="data[phone]" id="data phone" value="" placeholder="+34 935 21 92 01" />
-      </div>
-      <div class="large-4 columns">
-        <label for="">Primary Category ID</label>
-        <input type="text" name="data[cat_id]" id="data cat_id" value="" placeholder="4bf58dd8d48988d1e0931735" />
+        <label>Zip code</label>
+        <input type="text" name="data[zip]" id="data zip" value="" placeholder="08021" />
       </div>
     </div>
 
+    <div class="row">
+      <div class="large-4 columns">
+        <label>Phone number</label>
+        <input type="text" name="data[phone]" id="data phone" value="" placeholder="+34 935 21 92 01" />
+      </div>
+      <div class="large-4 columns">
+        <label>Twitter</label>
+        <input type="text" name="data[twitter]" id="data twitter" value="" placeholder="starbucks_es" />
+      </div>
+      <div class="large-4 columns">
+        <label>Webpage</label>
+        <input type="text" name="data[url]" id="data url" value="" placeholder="http://starbucksblog.es" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-6 columns">
+        <label>Venue category ID, separate multiple values with commas</label>
+        <textarea rows="3" name="data[categoryId]" id="data categoryId" value=""
+          placeholder="4bf58dd8d48988d1e0931735" /></textarea>
+      </div>
+      <div class="large-6 columns">
+        <label>Description (up to 300 characters)</label>
+        <textarea rows="3" name="data[description]" id="data description" value=""
+          placeholder="Cada Latte, Cada Cappuccino…café 100% certificado de Comercio Justo."></textarea>
+      </div>
+    </div>
     <div class="row">
       <div class="large-12 columns">
         <input class="large button expand success" type="submit" id="submit" value="Edit 'em all!" />

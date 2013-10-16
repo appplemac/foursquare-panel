@@ -1,13 +1,17 @@
 <script type="text/javascript" charset="utf-8">
   var validator = new FormValidator('batch_edit', [{
-    name: 'data[cat_id]',
-    display: 'category ID',
-    rules: 'alpha_numeric'
-  }, {
     name: 'data[phone]',
     display: 'phone number',
     rules: 'alpha_numeric'
-  },{
+  }, {
+    name: 'data[twitter]',
+    display: 'Twitter username',
+    rules: 'alpha_dash'
+  }, {
+    name: 'data[url]',
+    display: 'webpage',
+    rules: 'valid_url'
+  }, {
     name: 'venues[page_id]',
     display: 'page ID',
     rules: 'numeric|!callback_page_or_venue|!callback_min_change'

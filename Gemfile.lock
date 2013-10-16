@@ -1,3 +1,12 @@
+GIT
+  remote: git@github.com:appplemac/foursquare2.git
+  revision: 2142864855d32f88c10afe816c4945b6de0f3b15
+  specs:
+    foursquare2 (1.9.7)
+      faraday (~> 0.8)
+      faraday_middleware (>= 0.8)
+      hashie (>= 1.0, < 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -17,10 +26,6 @@ GEM
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
-    foursquare2 (1.9.7)
-      faraday (~> 0.8)
-      faraday_middleware (>= 0.8)
-      hashie (>= 1.0, < 3.0.0)
     hashie (2.0.5)
     httparty (0.11.0)
       multi_json (~> 1.0)
@@ -59,7 +64,7 @@ PLATFORMS
 DEPENDENCIES
   factory_girl
   faker
-  foursquare2
+  foursquare2!
   httparty
   json
   rack-flash3
