@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:appplemac/foursquare2.git
+  remote: git://github.com/appplemac/foursquare2.git
   revision: 2142864855d32f88c10afe816c4945b6de0f3b15
   specs:
     foursquare2 (1.9.7)
