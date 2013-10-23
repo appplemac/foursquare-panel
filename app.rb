@@ -115,8 +115,8 @@ post '/edit' do
     error("You have provided no venues for edition")
   end
 
-  if @ids.size > 500
-    error("You can't do more than 500 API requests per hour")
+  if @ids.size > 1000
+    error("You can't do more than 1000 API requests per hour")
   end
 
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
