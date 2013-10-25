@@ -23,7 +23,7 @@ workers = (1..3).map do
       venue = $queue.deq
       begin
         venue.edit!
-      rescue Foursquare2::APIException => e
+      rescue Foursquare2::APIError => e
         puts e.inspect
       end
     end
