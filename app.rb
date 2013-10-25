@@ -14,7 +14,6 @@ set :session_secret, 'xxKzkWJdVBUTgMgiVj'
 set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
 set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
 set :redirect_uri, 'http://panel.alexey.ch/auth'
-Thread.abort_on_exception = true
 
 $queue = Queue.new
 
