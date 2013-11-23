@@ -143,8 +143,8 @@ get '/done' do
 end
 
 get '/redirect' do
-  @uri = "https://foursquare.com/oauth2/authenticate?client_id=#{settings.client_id}\
-            &response_type=code&redirect_uri=#{settings.redirect_uri}".delete(" ")
+  @uri = "https://foursquare.com/oauth2/authenticate?client_id=#{ENV['4SQ_CLIENT_ID']}\
+            &response_type=code&redirect_uri=#{ENV['4SQ_REDIRECT_URI']}".delete(" ")
   redirect(@uri)
 end
 
