@@ -3,7 +3,7 @@
 
 class Venue
   attr_accessor :client, :venue_id, :name, :address, :crossStreet,
-                :city, :state, :zip, :phone, :categoryId, :twitter,
+                :city, :state, :zip, :phone, :primaryCategoryId, :twitter,
                 :description, :url
 
   def initialize(options = {})
@@ -15,7 +15,7 @@ class Venue
   def to_h
     props = {}
     [:client, :venue_id, :name, :address, :crossStreet,
-     :city, :state, :zip, :phone, :categoryId, :twitter,
+     :city, :state, :zip, :phone, :primaryCategoryId, :twitter,
      :description, :url].each do |attr|
       unless self.send(attr).nil?
         props[attr] = self.send(attr)

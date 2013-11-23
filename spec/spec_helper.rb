@@ -12,7 +12,7 @@ FactoryGirl.define do
     city Faker::Address.city
     state Faker::Address.state
     phone Faker::PhoneNumber.phone_number
-    cat_id Faker::Lorem.word
+    primaryCategoryId Faker::Lorem.word
   end
 
   factory :form_object do
@@ -22,7 +22,7 @@ FactoryGirl.define do
     common({name: Faker::Company.name, city: Faker::Address.city,
             state: Faker::Address.state,
             phone: Faker::PhoneNumber.phone_number,
-            cat_id: Faker::Lorem.word})
+            primaryCategoryId: Faker::Lorem.word})
 
     after(:build) do |form_object, evaluator|
       form_object.ids = []
