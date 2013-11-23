@@ -1,4 +1,4 @@
 Foursquare panel
 ----------
 
-A simple Foursquare panel with unclear functionality
+Simple venue batch-editing via Foursquare API.
