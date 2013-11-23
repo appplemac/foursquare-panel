@@ -152,10 +152,10 @@ get '/auth?' do
   # store the code in the session
   @code = params["code"]
   session[:token] = HTTParty.get("https://foursquare.com/oauth2/access_token",
-              :query => {:client_id => settings.client_id,
-                         :client_secret => settings.client_secret,
+              :query => {:client_id => ENV['4SQ_CLIENT_ID'],
+                         :client_secret => ENV['4SQ_CLIENT_SECRET'],
                          :grant_type => "authorization_code",
-                         :redirect_uri => settings.redirect_uri,
+                         :redirect_uri => ENV['4SQ_REDIRECT_URL'],
                          :code => @code }).parsed_response["access_token"]
   redirect("/edit")
 end
