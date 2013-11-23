@@ -1,3 +1,6 @@
+# This file is subject to the terms and conditions defined in
+# file 'LICENSE.txt', which is part of this source code package.
+
 class Venue
   attr_accessor :client, :venue_id, :name, :address, :crossStreet,
                 :city, :state, :zip, :phone, :categoryId, :twitter,

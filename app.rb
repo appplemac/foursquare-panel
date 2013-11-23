@@ -1,3 +1,6 @@
+# This file is subject to the terms and conditions defined in
+# file 'LICENSE.txt', which is part of this source code package.
+
 require 'sinatra'
 require 'thread'
 require 'foursquare2'
@@ -10,10 +13,10 @@ require_relative 'counter'
 
 use Rack::Session::Pool, :expire_after => 2592000
 use Rack::Flash
-set :session_secret, 'xxKzkWJdVBUTgMgiVj'
-set :client_id, 'RD3AK4RFSBHIAK40QJZMRMLJJX5BZMP2BNORXODPFT3MHRXK'
-set :client_secret, '3KRO5V4STOZZTSMHML4PSVN1HJ03WAIGTFR4SUB2FPVRGIRK'
-set :redirect_uri, 'http://panel.alexey.ch/auth'
+set :session_secret, ENV['SESSION_SECRET']
+set :client_id, ENV['4SQ_CLIENT_ID']
+set :client_secret, ENV['4SQ_CLIENT_SECRET']
+set :redirect_uri, ENV['4SQ']
 
 $queue = Queue.new
 
@@ -36,7 +39,7 @@ helpers do
     redirect('/edit')
   end
 
-  def in_whitelist(id)
+  def in_whitelist?(id)
     whitelist = [12277667]
     whitelist.include?(id)
   end
@@ -56,10 +59,14 @@ helpers do
     api_client = api_client_from_session
     user = api_client.user("self")
     if user.superuser.nil? or user.superuser < 3
-      unless in_whitelist(user.id.to_i)
+      unless in_whitelist?(user.id.to_i)
         redirect('/closed_beta')
       end
     end
+  end
+
+  def page_id_from_name(api_client, page_name)
+    api_client.search_pages(:twitter => page_name).results[0].id
   end
 
   def all_page_venues(api_client, page_id)
@@ -107,6 +114,11 @@ post '/edit' do
   if params[:venues]["source"] == "list"
     @ids = params[:venues]["venue_id"].delete(" ").split(",")
   else
+    @page_id = params[:venues]["page_id"]
+    if @page_id != @page_id.to_i.to_s
+      # We are dealing with page name
+      @page_id = page_id_from_name(@page_id, @api_client)
+    end
     @ids = all_page_venues(@api_client, params[:venues]["page_id"])
   end
 

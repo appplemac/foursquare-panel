@@ -1,0 +1,3 @@
+4edit has been created by Oleksii Klochai <hello@alexey.ch> in 2013.
+This project cannot be copied, modified and / or distributed without
+the expressed permission from Oleksii Klochai.
