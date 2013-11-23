@@ -16,7 +16,7 @@ use Rack::Flash
 set :session_secret, ENV['SESSION_SECRET']
 set :client_id, ENV['4SQ_CLIENT_ID']
 set :client_secret, ENV['4SQ_CLIENT_SECRET']
-set :redirect_uri, ENV['4SQ']
+set :redirect_uri, ENV['4SQ_REDIRECT_URI']
 
 $queue = Queue.new
 
