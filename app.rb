@@ -17,6 +17,10 @@ use Rack::Session::Pool, :expire_after => 2592000
 use Rack::Flash
 set :session_secret, ENV['SESSION_SECRET']
 
+helpers do
+  include Helpers
+end
+
 before do
   pass if %w(closed_beta justrendertheviewplease auth redirect).include?(
       request.path_info.split('/')[1])

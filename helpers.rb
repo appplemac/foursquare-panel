@@ -1,4 +1,4 @@
-helpers do
+module Helpers
   # @param [String] message A message to display as error
   def error(message)
     flash[:notice] = message
