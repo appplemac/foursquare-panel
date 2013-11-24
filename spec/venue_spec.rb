@@ -10,7 +10,8 @@ describe Venue do
 
   it "generates a hash of attributes" do
     hash = {name: @venue.name, city: @venue.city, state: @venue.state,
-            phone: @venue.phone, primaryCategoryId: @venue.cat_id}
+            phone: @venue.phone, primaryCategoryId: @venue.primaryCategoryId,
+            venue_id: @venue.venue_id}
     expect(@venue.to_h).to eq hash
   end
 end
