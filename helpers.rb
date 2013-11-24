@@ -1,3 +1,6 @@
+# This file is subject to the terms and conditions defined in
+# file 'LICENSE.txt', which is part of this source code package.
+
 module Helpers
   # @param [String] message A message to display as error
   def error(message)
@@ -12,13 +15,17 @@ module Helpers
   end
 
   def api_client_from_session
-    redirect('/redirect') unless session[:token]
-    Foursquare2::Client.new(:oauth_token => session[:token])
+    if session[:token]
+      Foursquare2::Client.new(:oauth_token => session[:token])
+    else
+      nil
+    end
   end
 
   # @pre The user already has a token
   def check_su
     api_client = api_client_from_session
+    redirect('/redirect') if api_client.nil?
     user = api_client.user('self')
     if user.superuser.nil? or user.superuser < 3
       unless in_whitelist?(user.id.to_i)
@@ -27,11 +34,11 @@ module Helpers
     end
   end
 
-  def page_id_from_user_input(api_client, page_name)
-    if page_name == page_name.to_i.to_s
-      page_name
+  def page_id_from_user_input(api_client, input)
+    if input == input.to_i.to_s
+      input
     else
-      api_client.search_pages(:twitter => page_name).results[0].id
+      api_client.search_pages(:twitter => input).results[0].id
     end
   end
 
