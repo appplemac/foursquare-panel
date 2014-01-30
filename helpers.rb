@@ -16,7 +16,7 @@ module Helpers
 
   def api_client_from_session
     if session[:token]
-      Foursquare2::Client.new(:oauth_token => session[:token])
+      Foursquare2::Client.new(:oauth_token => session[:token], :api_version => "20131006")
     else
       nil
     end
