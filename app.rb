@@ -33,9 +33,8 @@ workers = (1..3).map do
   Thread.new do
     while true
       venue = $queue.deq
-      $stderr.puts "DEQUEUE ", venue.inspect
       begin
-        venue.edit!
+        $stderr.puts(venue.edit!)
       rescue => e
         flash[:notice] = e.backtrace
       end
