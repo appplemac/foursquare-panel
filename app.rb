@@ -87,7 +87,7 @@ post '/edit' do
 
   error('You have provided no venues for edition') if @ids.empty?
   error("You can't do more than 10000 API requests per hour") if @ids.size > 10000
-  error("The page name doesn't seem correct") if @page_id.nil?
+  error("The page name doesn't seem correct") if @ids.nil?
 
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
   @venues.each { |venue| $queue << venue }
