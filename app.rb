@@ -77,8 +77,7 @@ end
 post '/edit' do
   @api_client = api_client_from_session
 
-  # we add api client as a part of common data
-  @common = params[:data].merge({:client => @api_client})
+  @common = params[:data]
   if params[:venues]['source'] == 'list'
     @ids = params[:venues]['venue_id'].delete(' ').split(',')
   else
@@ -89,7 +88,7 @@ post '/edit' do
   error('You have provided no venues for edition') if @ids.empty?
   error("You can't do more than 10000 API requests per hour") if @ids.size > 10000
 
-  @venues = FormObject.new(:ids => @ids, :common => @common).parse
+  @venues = FormObject.new(@api_client, @ids, @common).parse
   @venues.each { |venue| $queue << venue }
 
   redirect('/done')
