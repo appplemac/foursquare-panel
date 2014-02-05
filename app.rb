@@ -33,7 +33,7 @@ workers = (1..3).map do
   Thread.new do
     while true
       venue = $queue.deq
-      puts "DEQUEUE ", venue.inspect
+      $stderr.puts "DEQUEUE ", venue.inspect
       begin
         venue.edit!
       rescue => e
