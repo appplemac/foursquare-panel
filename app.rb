@@ -34,7 +34,7 @@ workers = (1..3).map do
     while true
       venue = $queue.deq
       begin
-        $stderr.puts(venue.edit!)
+        $stderr.puts "RESPONSE: ", venue.edit!
       rescue => e
         flash[:notice] = e.backtrace
       end
