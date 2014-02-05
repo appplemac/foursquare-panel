@@ -29,6 +29,7 @@ end
 
 $queue = Queue.new
 
+Thread.abort_on_exception = false
 workers = (1..3).map do
   Thread.new do
     while true
