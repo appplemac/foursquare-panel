@@ -37,7 +37,7 @@ workers = (1..3).map do
       begin
         venue.edit!
       rescue => e
-        puts e.backtrace
+        flash[:notice] = e.backtrace
       end
     end
   end
