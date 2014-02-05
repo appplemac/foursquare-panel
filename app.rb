@@ -10,7 +10,6 @@ require 'rack-flash'
 require 'uri'
 require_relative 'venue'
 require_relative 'form_object'
-require_relative 'counter'
 require_relative 'helpers'
 
 use Rack::Session::Pool, :expire_after => 2592000
