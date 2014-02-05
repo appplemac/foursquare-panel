@@ -38,7 +38,7 @@ workers = (1..3).map do
       begin
         venue.edit!
       rescue => e
-        puts e.inspect
+        puts e.backtrace
       end
     end
   end

@@ -14,7 +14,7 @@ class Venue
 
   def to_h
     props = {}
-    [:client, :venue_id, :name, :address, :crossStreet,
+    [:venue_id, :name, :address, :crossStreet,
      :city, :state, :zip, :phone, :primaryCategoryId, :twitter,
      :description, :url].each do |attr|
       unless self.send(attr).nil?
