@@ -16,7 +16,7 @@ module Helpers
 
   def api_client_from_session
     if session[:token]
-      Foursquare2::Client.new(:oauth_token => session[:token], :api_version => "20131006")
+      Foursquare2::Client.new(:oauth_token => session[:token], :api_version => "20140205")
     else
       nil
     end
@@ -46,14 +46,14 @@ module Helpers
     venue_ids = []
     offset = 0
     data = api_client.page_venues(page_id, limit: 100,
-                                  offset: offset).items
+                                  offset: offset).venues.items
     while data.size > 0
       data.each do |venue|
         venue_ids << venue.id
       end
       offset += 100
       data = api_client.page_venues(page_id, limit: 100,
-                                    offset: offset).items
+                                    offset: offset).venues.items
     end
     venue_ids
   end
