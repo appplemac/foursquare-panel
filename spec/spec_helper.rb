@@ -6,9 +6,7 @@ require 'rspec'
 require 'faker'
 require 'webmock/rspec'
 require 'foursquare2'
-require_relative '../venue'
 require_relative '../form_object'
-require_relative '../counter'
 require_relative '../helpers'
 
 
@@ -24,15 +22,6 @@ RSpec.configure do |config|
 end
 
 FactoryGirl.define do
-  factory :venue do
-    venue_id Faker::Number.number(15)
-    name Faker::Company.name
-    city Faker::Address.city
-    state Faker::Address.state
-    phone Faker::PhoneNumber.phone_number
-    primaryCategoryId Faker::Lorem.word
-  end
-
   factory :form_object do
     ignore do
       quant 5
