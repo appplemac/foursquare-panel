@@ -34,9 +34,10 @@ workers = (1..3).map do
   Thread.new do
     while true
       venue = $queue.deq
+      puts "DEQUEUE ", venue.inspect
       begin
         venue.edit!
-      rescue Foursquare2::APIError => e
+      rescue => e
         puts e.inspect
       end
     end
@@ -88,7 +89,6 @@ post '/edit' do
 
   error('You have provided no venues for edition') if @ids.empty?
   error("You can't do more than 10000 API requests per hour") if @ids.size > 10000
-  error("The page name doesn't seem correct") if @ids.nil?
 
   @venues = FormObject.new(:ids => @ids, :common => @common).parse
   @venues.each { |venue| $queue << venue }
