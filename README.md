@@ -13,4 +13,4 @@ account that I am writing this, failed to do so).
 
 Thanks to [Ariom Komolov](http://about.me/komolov) for the initial idea,
 and to the amazing team of all Foursquare SU3s, including Artiom, for
-thorougly testing it and providing me with excellent feedback.
+thorougly testing it and providing me with excellent feedback. :heart:
