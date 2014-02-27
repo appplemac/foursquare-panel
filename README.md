@@ -11,6 +11,6 @@ Pull requests are very welcome, as for the last few months I have been
 trying to deal with bugs throughout the application (and, taking into
 account that I am writing this, failed to do so).
 
-Thanks to [Ariom Komolov](http://about.me/komolov) for the initial idea,
+Thanks to [Artiom Komolov](http://komolov.com) for the initial idea,
 and to the amazing team of all Foursquare SU3s, including Artiom, for
 thorougly testing it and providing me with excellent feedback. :heart:
